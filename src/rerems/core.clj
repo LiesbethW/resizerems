@@ -9,10 +9,10 @@
       (str (.setScale new-value 0))
       (str new-value))))
 
-(def rem-pattern #"(\d+[\d.]*|\.[\d]+)rem")
+(def rem-pattern #"(\d+[\d.]*|\.[\d]+)px")
 
 (defn update-rem-value [[_ group]]
-  (str (times 0.75 group) "rem"))
+  (str (times 0.0625 group) "rem"))
 
 (defn replace-rem-values [subject]
   (str/replace subject rem-pattern update-rem-value))
@@ -23,6 +23,7 @@
     (spit filepath modified)))
 
 (def flex-dir (io/file "/Users/liesbeth.wijers/Development/Pep/flux/flex/app"))
+(def grid-dir (io/file "/Users/liesbeth.wijers/Development/Pep/flux/grid/app"))
 
 (defn stylesheets [path]
   (let [grammar-matcher (.getPathMatcher
@@ -36,7 +37,7 @@
          (mapv #(.getAbsolutePath %)))))
 
 
-(def files (stylesheets flex-dir))
+(def files (stylesheets grid-dir))
 
 (defn process-with-guardrails [files]
   (let [try-process (fn [file] (try
